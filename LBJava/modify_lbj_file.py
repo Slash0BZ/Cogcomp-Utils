@@ -1,3 +1,5 @@
+# Usage: python modify_lbj_file.py [rounds] [realFeatures?] [Algorithms]
+# Note: Need to modify the line numbers and fileName for different lbj files.
 import sys
 fileName = './lbjava-examples/src/main/lbj/NewsGroupClassifier.lbj'
 
