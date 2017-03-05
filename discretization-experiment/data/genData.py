@@ -39,7 +39,11 @@ def writeData(example_num, feature_num, noise_percentage, output_file):
 	shuffleData(data)
 	fp = open(output_file, 'w')
 	for d in data:
-		fp.write(str(d) + "\n")
+		s = ''
+		for n in d:
+			s = s + str(n) + ","
+		s = s[:-1] + "\n"
+		fp.write(s)
 	fp.close()
 
 writeData(500, 100, 0.2, 'data_500_100_0.2')
