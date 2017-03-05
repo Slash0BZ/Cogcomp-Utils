@@ -1,0 +1,37 @@
+package me.xuanyu.cogcomp.discretization;
+
+import java.util.List;
+import java.lang.*;
+
+discrete{"positive", "negative"} InstanceLabel(String line) <- {
+	String[] tokens = line.split(",");
+	if (tokens[tokens.length - 1].equals("1.0")) {
+		return "positive";
+	}
+	else{
+		return "negative";
+	}
+}
+
+discrete% FeatureSet(String line) <- {
+	String[] token = line.split(",");
+	for (int i = 0; i < token.length - 1; i++){
+		sense token[i];
+	}
+}
+
+discrete RealFeatureClassifier(String line) <-
+learn InstanceLabel
+	using FeatureSet
+	from new FeatureReader("../data/data.train")
+	10 rounds
+
+	with SparseAveragedPerceptron {
+		
+	}
+
+	testFrom new FeatureReader("../data/data.test")
+
+	progressOutput 100
+end
+
