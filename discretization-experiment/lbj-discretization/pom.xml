@@ -47,6 +47,7 @@
 				<configuration>
 					<lbjavaInputFileList>
 						<param>${project.basedir}/lbj/RealFeatures.lbj</param>
+						<param>${project.basedir}/lbj/DiscreteFeatures.lbj</param>
 					</lbjavaInputFileList>
 				</configuration>
 			</plugin>

@@ -3,7 +3,7 @@ package me.xuanyu.cogcomp.discretization;
 import java.util.List;
 import java.lang.*;
 
-discrete{"positive", "negative"} RealInstanceLabel(String line) <- {
+discrete{"positive", "negative"} DiscreteInstanceLabel(String line) <- {
 	String[] tokens = line.split(",");
 	if (Double.parseDouble(tokens[tokens.length - 1]) == 1) {
 		return "positive";
@@ -13,16 +13,19 @@ discrete{"positive", "negative"} RealInstanceLabel(String line) <- {
 	}
 }
 
-real[] RealFeatureSet(String line) <- {
+discrete% DiscreteFeatureSet(String line) <- {
 	String[] token = line.split(",");
-	for (int i = 0; i < token.length - 1; i++){
-		sense Double.parseDouble(token[i]);
+	for (int i = 0; i < token.length - 1; i++){	
+		double val = Double.parseDouble(token[i]);
+		val += 100.0;
+		int discrete_class = (int)val / 5;
+		sense Integer.toString(discrete_class);
 	}
 }
 
-discrete RealFeatureClassifier(String line) <-
-learn RealInstanceLabel
-	using RealFeatureSet
+discrete DiscreteFeatureClassifier(String line) <-
+learn DiscreteInstanceLabel
+	using DiscreteFeatureSet
 	from new FeatureReader("../data/data.train")
 	100 rounds
 
@@ -34,4 +37,3 @@ learn RealInstanceLabel
 
 	progressOutput 2000;
 end
-
