@@ -5,7 +5,7 @@ import java.lang.*;
 
 discrete{"positive", "negative"} InstanceLabel(String line) <- {
 	String[] tokens = line.split(",");
-	if (tokens[tokens.length - 1].equals("1.0")) {
+	if (Double.parseDouble(tokens[tokens.length - 1]) == 1) {
 		return "positive";
 	}
 	else{
@@ -13,10 +13,10 @@ discrete{"positive", "negative"} InstanceLabel(String line) <- {
 	}
 }
 
-discrete% FeatureSet(String line) <- {
+real[] FeatureSet(String line) <- {
 	String[] token = line.split(",");
 	for (int i = 0; i < token.length - 1; i++){
-		sense token[i];
+		sense Double.parseDouble(token[i]);
 	}
 }
 
@@ -24,7 +24,7 @@ discrete RealFeatureClassifier(String line) <-
 learn InstanceLabel
 	using FeatureSet
 	from new FeatureReader("../data/data.train")
-	10 rounds
+	100 rounds
 
 	with SparseAveragedPerceptron {
 		
