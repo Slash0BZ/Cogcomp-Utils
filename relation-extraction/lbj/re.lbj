@@ -1,0 +1,31 @@
+package me.xuanyu.cogcomp.re;
+import edu.illinois.cs.cogcomp.nlp.corpusreaders.ACEReader;
+import java.util.List;
+import java.lang.*;
+import edu.illinois.cs.cogcomp.core.datastructures.textannotation.*;
+import edu.illinois.cs.cogcomp.core.datastructures.ViewNames;
+
+discrete {"PER", "ORG", "GPE", "LOC", "FAC", "VEH", "WEA"} type_label(Constituent ct) <- {
+    return ct.getAttribute("EntityType");
+}
+
+discrete% word_features(Constituent ct) <-{
+    System.out.println(ct.toString());
+    int startIdx = ct.getStartSpan();
+    int endIdx = ct.getEndSpan();
+    for (int i = startIdx; i < endIdx; i++){
+        String curWord = ct.getTextAnnotation().getToken(i);
+        sense curWord;
+    }
+}
+discrete test_classifier(Constituent ct) <-
+learn type_label
+    using word_features
+    from new ACEMentionReader("data")
+    1 rounds
+    with SparseNetworkLearner{
+        baseLTU = new SparseAveragedPerceptron();
+    }
+    testFrom new ACEMentionReader("data")
+    progressOutput 20000
+end
